@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    log_info("welcome to wmsync");
+    log_info("Welcome to wmsync");
 
     start_sync(&config);
     return 0;
