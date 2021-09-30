@@ -1,65 +1,46 @@
-#include <inih/ini.h>
 #include "common.h"
+#include <inih/ini.h>
 
 static int handler(void *user, const char *section, const char *name,
                    const char *value);
-static void print_banner();
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     configuration config;
 
-    print_banner();
-
-    if (argc != 2)
-    {
-        printf("usage: %s <config_path>\n", argv[0]);
+    if (argc != 2) {
+        printf("Invalid command\n");
+        printf("Usage: %s <config_path>\n", argv[0]);
         return 1;
     }
 
-    if (ini_parse(argv[1], handler, &config) < 0)
-    {
+    if (ini_parse(argv[1], handler, &config) < 0) {
         printf("Can't load '%s'\n", argv[1]);
         return 1;
     }
+
+    log_info("welcome to wmsync");
 
     start_sync(&config);
     return 0;
 }
 
 static int handler(void *user, const char *section, const char *name,
-                   const char *value)
-{
+                   const char *value) {
     configuration *p_config = (configuration *)user;
 
 #define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
-    if (MATCH("auth", "username"))
-    {
+    if (MATCH("auth", "username")) {
         p_config->username = strdup(value);
-    }
-    else if (MATCH("auth", "password"))
-    {
+    } else if (MATCH("auth", "password")) {
         p_config->password = strdup(value);
-    }
-    else if (MATCH("wms", "gw_id"))
-    {
+    } else if (MATCH("wms", "gw_id")) {
         p_config->gw_id = strdup(value);
-    }
-    else if (MATCH("wms", "wlan"))
-    {
+    } else if (MATCH("wms", "wlan")) {
         p_config->wlan = strdup(value);
-    }
-    else if (MATCH("wms", "mac"))
-    {
+    } else if (MATCH("wms", "mac")) {
         p_config->gw_id = strdup(value);
-    }
-    else
-    {
+    } else {
         return 0;
     }
     return 1;
-}
-
-static void print_banner() {
-    printf("wmsync \u2014 WMS connection synchronizer\n");
 }
