@@ -1,5 +1,5 @@
-#ifndef COMMON_H
-#define COMMON_H
+#ifndef WMSYNC__COMMON_H
+#define WMSYNC__COMMON_H
 
 #include <log.c/log.h>
 #include <stdio.h>

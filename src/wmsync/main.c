@@ -1,4 +1,4 @@
-#include "common.h"
+#include <wmsync/common.h>
 #include <inih/ini.h>
 
 static int handler(void *user, const char *section, const char *name,
