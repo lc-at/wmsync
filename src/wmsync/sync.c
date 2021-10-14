@@ -6,6 +6,7 @@ int start_sync(configuration *p_config) {
     int wsa_init_rv = 0;
     int mac_conv_rv = 0;
     uint8_t mac_addr_buf[6];
+    char ip_addr_buf[IP_ADDR_BUF_SZ];
 
     mac_conv_rv = mac_aton(p_config->mac, mac_addr_buf);
     if (mac_conv_rv != 0) {
@@ -22,7 +23,6 @@ int start_sync(configuration *p_config) {
 
     log_info("Starting login loop");
     while (1) {
-        char ip_addr_buf[IP_ADDR_BUF_SZ];
         unsigned long get_ip_retval =
             get_ip_by_mac(mac_addr_buf, ip_addr_buf, IP_ADDR_BUF_SZ);
         if (get_ip_retval != 0) {
