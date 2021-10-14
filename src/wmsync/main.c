@@ -38,11 +38,7 @@ static int handler(void *user, const char *section, const char *name,
     } else if (MATCH("wms", "wlan")) {
         config_p->wlan = strdup(value);
     } else if (MATCH("wms", "mac")) {
-        int macconv_rv = mac_aton(value, config_p->mac);
-        if (macconv_rv != 0) {
-            printf("Invalid mac address value\n");
-            exit(1);
-        }
+        config_p->mac = strdup(value);
     } else {
         return 0;
     }
