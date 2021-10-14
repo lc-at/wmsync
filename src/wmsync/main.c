@@ -1,4 +1,5 @@
 #include <wmsync/common.h>
+#include <wmsync/api.h>
 #include <inih/ini.h>
 
 static int handler(void *user, const char *section, const char *name,
@@ -19,26 +20,29 @@ int main(int argc, char *argv[]) {
     }
 
     log_info("Welcome to wmsync");
-
     start_sync(&config);
     return 0;
 }
 
 static int handler(void *user, const char *section, const char *name,
                    const char *value) {
-    configuration *p_config = (configuration *)user;
+    configuration *config_p = (configuration *)user;
 
 #define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
     if (MATCH("auth", "username")) {
-        p_config->username = strdup(value);
+        config_p->username = strdup(value);
     } else if (MATCH("auth", "password")) {
-        p_config->password = strdup(value);
+        config_p->password = strdup(value);
     } else if (MATCH("wms", "gw_id")) {
-        p_config->gw_id = strdup(value);
+        config_p->gw_id = strdup(value);
     } else if (MATCH("wms", "wlan")) {
-        p_config->wlan = strdup(value);
+        config_p->wlan = strdup(value);
     } else if (MATCH("wms", "mac")) {
-        p_config->gw_id = strdup(value);
+        int macconv_rv = mac_aton(value, config_p->mac);
+        if (macconv_rv != 0) {
+            printf("Invalid mac address value\n");
+            exit(1);
+        }
     } else {
         return 0;
     }
