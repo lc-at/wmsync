@@ -1,10 +1,17 @@
 #include <wmsync/api.h>
 #include <wmsync/common.h>
-
-unsigned long get_netinfo(uint8_t *mac);
+#include <windows.h>
 
 int start_sync(configuration *p_config) {
     int wsa_init_rv = 0;
+    int mac_conv_rv = 0;
+    uint8_t mac_addr_buf[6];
+
+    mac_conv_rv = mac_aton(p_config->mac, mac_addr_buf);
+    if (mac_conv_rv != 0) {
+        log_error("Invalid MAC address. Check your config file.");
+        exit(1);
+    }
 
     log_info("Initializing synchronizer");
     wsa_init_rv = init_wsa();
@@ -13,22 +20,20 @@ int start_sync(configuration *p_config) {
         exit(1);
     }
 
-    log_info("Checking connection");
-    get_netinfo(p_config->mac);
-    return 0;
-}
-
-unsigned long get_netinfo(uint8_t *mac) {
-    char ip_addr[16];
-    unsigned long retval;
-    char mac_addr[20];
-    mac_ntoa(mac, mac_addr);
-    log_info("MAC Address: %s", mac_addr);
-    retval = get_ip_by_mac(mac, ip_addr, 16);
-    if (retval != 0) {
-        log_error("Failed to find IP address (code: %d)", retval);
-    } else {
-        log_info("IP Address: %s", ip_addr);
+    log_info("Starting login loop");
+    while (1) {
+        char ip_addr_buf[IP_ADDR_BUF_SZ];
+        unsigned long get_ip_retval =
+            get_ip_by_mac(mac_addr_buf, ip_addr_buf, IP_ADDR_BUF_SZ);
+        if (get_ip_retval != 0) {
+            log_error("Failed to get IP address for the specified MAC address "
+                      "(code: %d).",
+                      get_ip_retval);
+            Sleep(LOGIN_ERROR_TA_INTERVAL);
+            continue;
+        }
+        log_info("Sending a login request for IP address: %s", ip_addr_buf);
+        Sleep(LOGIN_CHECK_INTERVAL);
     }
-    return retval;
+    return 0;
 }
