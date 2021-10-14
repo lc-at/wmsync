@@ -4,6 +4,7 @@
 #include <log.c/log.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 
 typedef struct {
@@ -12,9 +13,9 @@ typedef struct {
     const char *password;
     const char *gw_id;
     const char *wlan;
-    const char *mac;
+    uint8_t mac[6];
 } configuration;
 
 int start_sync(configuration *config);
 
-#endif  // COMMON_H
+#endif // WMSYNC__COMMON_H
