@@ -1,10 +1,10 @@
 TARGET=wmsync
 
 IDIR = include
-DIRS = * src/wmsync/* $(IDIR)/inih/* $(IDIR)/log.c/*
+DIRS = * src/wmsync/* $(IDIR)/inih/* $(IDIR)/log.c/* $(IDIR)/wmsync/*
 
 CC = gcc
-CFLAGS = -I $(IDIR) -Wall
+CFLAGS = -Wall -Wextra -Wpedantic -Wconversion -I $(IDIR) -DLOG_USE_COLOR
 LIBS = -liphlpapi -lws2_32
 
 HEADERS = $(foreach dir, $(DIRS), $(wildcard $(dir).h))
@@ -12,10 +12,10 @@ OBJECTS = $(patsubst %.c, %.o, $(foreach dir, $(DIRS), $(wildcard $(dir).c)))
 
 .PHONY: default all clean
 
-default: $(TARGET)
-all: default clean
+default: all
+all: $(TARGET)
 
-src/wmsync/%.o: src/wmsync/%.c $(HEADERS)
+%.o: %.c $(HEADERS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(TARGET): $(OBJECTS)
