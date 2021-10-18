@@ -20,8 +20,7 @@ int main(int argc, char *argv[]) {
     }
 
     log_info("Welcome to wmsync");
-    start_sync(&config);
-    return 0;
+    return start_sync(&config);
 }
 
 static int handler(void *user, const char *section, const char *name,
@@ -38,7 +37,9 @@ static int handler(void *user, const char *section, const char *name,
     } else if (MATCH("wms", "wlan")) {
         config_p->wlan = strdup(value);
     } else if (MATCH("wms", "mac")) {
-        config_p->mac = strdup(value);
+        config_p->client_mac = strdup(value);
+    } else if (MATCH("wms", "url")) {
+        config_p->url = strdup(value);
     } else {
         return 0;
     }

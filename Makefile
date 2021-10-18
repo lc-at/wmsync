@@ -1,7 +1,7 @@
 TARGET=wmsync
 
 IDIR = include
-DIRS = * src/wmsync/* $(IDIR)/inih/* $(IDIR)/log.c/* $(IDIR)/wmsync/*
+DIRS = * src/wmsync/* $(IDIR)/inih/* $(IDIR)/log.c/* $(IDIR)/libhttp/* $(IDIR)/wmsync/*
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Wpedantic -Wconversion -I $(IDIR) -DLOG_USE_COLOR

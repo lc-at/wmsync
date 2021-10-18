@@ -10,13 +10,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <unistd.h>
 
 typedef struct {
     const char *username;
     const char *password;
     const char *gw_id;
+    const char *url;
     const char *wlan;
-    const char *mac;
+    const char *client_mac;
 } configuration;
 
 int start_sync(configuration *config);
