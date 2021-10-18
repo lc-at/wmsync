@@ -2,3 +2,17 @@ WMSYNC
 ------
 A program used to synchronize Telkom Indonesia's WMS service connection.
 This is my first C project.
+
+I decided to not continue the development of this project. In my perspective,
+this project will be less usable if it is developed in C because the WMS's
+autologin mechanism is constantly changing. I think it is better to develop
+the project in a scripting language like Python. Constantly following the mechanism
+change will be overwhelming and may take quite a long time.
+Also, the development of this project has satisfied my learning needs. I have
+learned many C things thanks to this project.
+If you want to correct my code or give an advice, feel free to submit a pull request.
+I will be very happy to learn.
+
+Anyway, I plan to remake this project in Python.
+
+2021.10.18
