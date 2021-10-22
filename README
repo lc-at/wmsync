@@ -1,6 +1,7 @@
 WMSYNC
 ------
-A program used to synchronize Telkom Indonesia's WMS service connection.
+A program used to synchronize Telkom Indonesia's WMS internet connection. 
+Synchronization that I meant is simply just sending a login request in forever loop.
 This is my first C project.
 
 I decided to not continue the development of this project. In my perspective,
